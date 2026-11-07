@@ -748,7 +748,7 @@ window.addEventListener("popstate", route);
 route();
 
 function chartPage() {
-  const toolbar = `<div class="source-toolbar"><div><strong>Chart source</strong><span>Market view or your research data</span></div><div class="source-toggle" role="group" aria-label="Chart source"><button id="source-tv" class="${chartSource === "tradingview" ? "active" : ""}">TradingView</button><button id="source-local" class="${chartSource === "local" ? "active" : ""}">Demo / imported CSV</button></div></div>`;
+  const toolbar = `<div class="source-toolbar"><div><strong>Chart source</strong><span>Market view or your research data</span></div><div class="source-toggle" role="group" aria-label="Chart source"><button id="source-tv" class="${chartSource === "tradingview" ? "active" : ""}" aria-pressed="${chartSource === "tradingview"}">TradingView</button><button id="source-local" class="${chartSource === "local" ? "active" : ""}" aria-pressed="${chartSource === "local"}">Demo / imported CSV</button></div></div>`;
   if (chartSource === "local") {
     localChartPage();
     $("#page").insertAdjacentHTML("afterbegin", toolbar);
