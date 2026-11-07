@@ -93,12 +93,25 @@ function check(s, o, price, time) {
     instruments[symbol].kind === "stock" || instruments[symbol].kind === "etf"
       ? quantity * mark
       : quantity * s.marginPerContract;
+  const pending = s.orders.filter((order) => order.status === "working");
+  const pendingReserve = pending.reduce(
+    (n, order) =>
+      n + reserve(order.symbol, order.quantity, order.type === "market" ? price : order.price),
+    0,
+  );
+  const pendingRisk = pending.reduce(
+    (n, order) =>
+      n + plannedRisk(s, order, order.type === "market" ? price : order.price),
+    0,
+  );
+  if (pendingRisk + plannedRisk(s, o, price) > (equity * s.riskPercent) / 100)
+    throw Error("Combined working-order risk exceeds the account risk limit.");
   const used = s.positions.reduce(
     (n, p) => n + reserve(p.symbol, p.quantity, p.mark),
     0,
   );
   if (
-    used + reserve(o.symbol, o.quantity, price) + s.fees * o.quantity >
+    used + pendingReserve + reserve(o.symbol, o.quantity, price) + s.fees * o.quantity >
     equity
   )
     throw Error(
@@ -271,7 +284,14 @@ export function advanceAccount(state, symbol, bar, index) {
         sign * s.slipTicks * info.tick;
     if (price === undefined) continue;
     try {
-      check(s, o, price, bar.time);
+      // Do not count this order twice when rechecking portfolio capacity.
+      const candidate = s.orders;
+      s.orders = candidate.filter((item) => item.id !== o.id);
+      try {
+        check(s, o, price, bar.time);
+      } finally {
+        s.orders = candidate;
+      }
     } catch (e) {
       o.status = "rejected";
       o.reason = e.message;
