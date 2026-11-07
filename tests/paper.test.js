@@ -170,3 +170,20 @@ test("trailing protection tightens at close for the next bar and never widens", 
   s = advanceAccount(s, "MNQ", bar(102, 104, 101, 103), 3);
   assert.equal(s.trades[0].exit, 101.75);
 });
+
+test("pending orders reserve combined risk and buying power", () => {
+  let s = newAccount();
+  s.riskPercent = 1;
+  s = queue(s, { quantity: 10 });
+  assert.throws(() => queue(s, { quantity: 2 }), /Combined working-order risk/);
+  let small = newAccount(2500);
+  small.riskPercent = 5;
+  small = queue(small, { quantity: 1 });
+  assert.throws(() => queue(small, { quantity: 2 }), /buying power/);
+});
+test("filled working order is excluded from its own pending reservation", () => {
+  let s = queue(newAccount(), { quantity: 2 });
+  s = advanceAccount(s, "MNQ", bar(), 1);
+  assert.equal(s.orders[0].status, "filled");
+  assert.equal(s.positions.length, 1);
+});
