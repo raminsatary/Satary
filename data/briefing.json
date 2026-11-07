@@ -1,0 +1,129 @@
+{
+  "generatedAt": "2026-11-07T21:19:08.047753+00:00",
+  "sources": [
+    {
+      "name": "Federal Reserve",
+      "url": "https://www.federalreserve.gov/newsevents.htm",
+      "status": "ok",
+      "count": 6
+    },
+    {
+      "name": "BLS",
+      "url": "https://www.bls.gov/bls/newsrels.htm",
+      "status": "ok",
+      "count": 1
+    },
+    {
+      "name": "BEA",
+      "url": "https://www.bea.gov/news",
+      "status": "ok",
+      "count": 6
+    },
+    {
+      "name": "BBC Business",
+      "url": "https://www.bbc.com/news/business",
+      "status": "ok",
+      "count": 1
+    }
+  ],
+  "items": [
+    {
+      "source": "BBC Business",
+      "title": "AI stocks climb after trillions wiped from market values",
+      "summary": "",
+      "url": "https://www.bbc.co.uk/news/articles/c35ynnpzdq51o?at_medium=RSS&at_campaign=rss",
+      "publishedAt": "2026-11-06T21:06:25+00:00"
+    },
+    {
+      "source": "BLS",
+      "title": "Major Economic Indicators Latest Numbers",
+      "summary": "Consumer Price Index (CPI): +0.6% in Sep 2026 News Release Historical Data Unemployment Rate: 4.1% in Oct 2026 News Release Historical Data Payroll Employment: +165,000(p) in Oct 2026 News Release Historical Data Average Hourly Earnings: +$0.14(p) in Oct 2026 News Release Historical Data Producer Price Index - Final Demand: +1.3%(p) in Sep 2026 News Release ",
+      "url": "https://www.bls.gov/bls/",
+      "publishedAt": "2026-11-06T13:31:35+00:00"
+    },
+    {
+      "source": "BEA",
+      "title": "U.S. International Trade in Goods and Services, September 2026",
+      "summary": "The U.S. goods and services trade deficit decreased in September 2026 according to the U.S. Bureau of Economic Analysis and the U.S. Census Bureau. The deficit decreased from $105.7 billion in August (revised) to $105.0 billion in September, as exports increased more than imports. The goods deficit decreased $0.7 billion in September to $135.9 billion. The s",
+      "url": "https://www.bea.gov/news/2026/us-international-trade-goods-and-services-september-2026",
+      "publishedAt": "2026-11-04T13:30:00+00:00"
+    },
+    {
+      "source": "BEA",
+      "title": "GDP (Advance Estimate), 3rd Quarter 2026",
+      "summary": "Real gross domestic product (GDP) increased at an annual rate of 3.4 percent in the third quarter of 2026 (July, August, and September), according to the advance estimate released today by the U.S. Bureau of Economic Analysis (BEA). In the second quarter, real GDP increased 2.2 percent. The contributors to the increase in real GDP in the third quarter were i",
+      "url": "https://www.bea.gov/news/2026/gdp-advance-estimate-3rd-quarter-2026",
+      "publishedAt": "2026-10-29T12:30:00+00:00"
+    },
+    {
+      "source": "BEA",
+      "title": "Personal Income and Outlays, September 2026",
+      "summary": "Personal income increased $54.5 billion (0.2 percent at a monthly rate) in September, according to estimates released today by the U.S. Bureau of Economic Analysis (BEA). Disposable personal income (DPI)\u2013personal income less personal current taxes\u2013increased $52.7 billion (0.2 percent), and personal consumption expenditures (PCE) increased $113.1 billion (0.5",
+      "url": "https://www.bea.gov/news/2026/personal-income-and-outlays-september-2026",
+      "publishedAt": "2026-10-29T12:30:00+00:00"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "Federal Reserve issues FOMC statement",
+      "summary": "Federal Reserve issues FOMC statement",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm",
+      "publishedAt": "2026-10-28T18:00:00+00:00"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "Minutes of the Board's discount rate meetings on August 17, September 9, and September 16, 2026",
+      "summary": "Minutes of the Board's discount rate meetings on August 17, September 9, and September 16, 2026",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261013a.htm",
+      "publishedAt": "2026-10-13T18:00:00+00:00"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "Minutes of the Federal Open Market Committee, September 15-16, 2026",
+      "summary": "Minutes of the Federal Open Market Committee, September 15-16, 2026",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261007a.htm",
+      "publishedAt": "2026-10-07T18:00:00+00:00"
+    },
+    {
+      "source": "BEA",
+      "title": "U.S. International Transactions and Investment Position, 2nd Quarter 2026",
+      "summary": "The U.S. current-account deficit resulting from international economic transactions widened by $33.4 billion, or 15.7 percent, to $246.0 billion in the second quarter of 2026, according to statistics released today by the U.S. Bureau of Economic Analysis. The revised first-quarter deficit was $212.6 billion. The second-quarter deficit was 3.0 percent of curr",
+      "url": "https://bea.gov/news/2026/us-international-transactions-and-investment-position-2nd-quarter-2026",
+      "publishedAt": "2026-09-24T12:30:00+00:00"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "Federal Reserve issues FOMC statement",
+      "summary": "Federal Reserve issues FOMC statement",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916a.htm",
+      "publishedAt": "2026-09-16T18:00:00+00:00"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "Federal Reserve Board and Federal Open Market Committee release economic projections from the September 15-16 FOMC meeting",
+      "summary": "Federal Reserve Board and Federal Open Market Committee release economic projections from the September 15-16 FOMC meeting",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916b.htm",
+      "publishedAt": "2026-09-16T18:00:00+00:00"
+    },
+    {
+      "source": "BEA",
+      "title": "Personal Income and Outlays, July 2026",
+      "summary": "Personal income increased $115.1 billion (0.4 percent at a monthly rate) in July, according to estimates released today by the U.S. Bureau of Economic Analysis (BEA). Disposable personal income (DPI)-personal income less personal current taxes-increased $125.9 billion (0.5 percent), and personal consumption expenditures (PCE) increased $36.3 billion (0.2 per",
+      "url": "https://www.bea.gov/news/2026/personal-income-and-outlays-july-2026",
+      "publishedAt": "2026-08-26T12:30:00+00:00"
+    },
+    {
+      "source": "Federal Reserve",
+      "title": "Minutes of the Board's discount rate meetings on July 20 and July 29, 2026",
+      "summary": "Minutes of the Board's discount rate meetings on July 20 and July 29, 2026",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260825a.htm",
+      "publishedAt": "2026-08-25T18:00:00+00:00"
+    },
+    {
+      "source": "BEA",
+      "title": "Personal Income and Outlays, June 2026",
+      "summary": "Personal income increased $54.9 billion (0.2 percent at a monthly rate) in June, according to estimates released today by the U.S. Bureau of Economic Analysis (BEA). Disposable personal income (DPI)-personal income less personal current taxes-increased $48.3 billion (0.2 percent), and personal consumption expenditures (PCE) increased $65.2 billion (0.3 perce",
+      "url": "https://www.bea.gov/news/2026/personal-income-and-outlays-june-2026",
+      "publishedAt": "2026-07-30T12:30:00+00:00"
+    }
+  ]
+}
