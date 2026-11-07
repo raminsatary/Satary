@@ -2,6 +2,8 @@ name: Check Satary and refresh publisher briefing
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
   schedule:
     - cron: "17 * * * *"
@@ -31,13 +33,15 @@ jobs:
       - name: Check workspace interactions
         run: npm run test:ui
       - name: Refresh publisher RSS snapshot
+        if: github.event_name != 'pull_request'
         id: news
         continue-on-error: true
         run: python scripts/refresh-news.py
       - name: Report retained snapshot
-        if: steps.news.outcome == 'failure'
+        if: github.event_name != 'pull_request' && steps.news.outcome == 'failure'
         run: echo 'Feed refresh failed; retaining the existing snapshot and original timestamp.' >> "$GITHUB_STEP_SUMMARY"
       - name: Save publisher snapshot
+        if: github.event_name != 'pull_request'
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
@@ -48,6 +52,7 @@ jobs:
             git push origin HEAD:main
           fi
       - name: Request existing branch-based Pages build
+        if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh api --method POST "repos/${{ github.repository }}/pages/builds"
