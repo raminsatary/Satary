@@ -38,17 +38,47 @@ let state = null,
   overlay = "sma",
   drawMode = "entry",
   level = null;
+function validReplay(data) {
+  const a = data?.account;
+  const positive = (v) => Number.isFinite(v) && v > 0;
+  const symbol = (v) => typeof v === "string" && Object.hasOwn(instruments, v);
+  if (a?.version !== 1 || typeof a.id !== "string" || !a.id ||
+      !positive(a.initial) || !Number.isFinite(a.balance) ||
+      !Number.isInteger(a.sequence) || a.sequence < 0 ||
+      ![a.fees,a.slipTicks,a.riskPercent,a.dailyLossPercent,a.marginPerContract].every(positive) ||
+      !Array.isArray(a.orders) || !Array.isArray(a.positions) || !Array.isArray(a.trades)) return false;
+  if (!a.positions.every((p) => symbol(p.symbol) && positive(p.entry) &&
+      positive(p.mark) && positive(p.stop) && positive(p.target) &&
+      Number.isInteger(p.quantity) && p.quantity > 0 && [-1,1].includes(p.side) &&
+      Number.isFinite(p.entryFees) && p.entryFees >= 0)) return false;
+  if (!a.orders.every((o) => symbol(o.symbol) &&
+      ["working","filled","cancelled","rejected"].includes(o.status) &&
+      ["buy","sell"].includes(o.side) && ["market","limit","stop"].includes(o.type) &&
+      Number.isInteger(o.quantity) && o.quantity > 0 &&
+      positive(o.stop) && positive(o.target) &&
+      (o.type === "market" || positive(o.price)) &&
+      Number.isInteger(o.submittedIndex) && o.submittedIndex >= 0)) return false;
+  if (!a.trades.every((t) => symbol(t.symbol) && positive(t.entry) &&
+      positive(t.exit) && Number.isInteger(t.quantity) && t.quantity > 0 &&
+      Number.isFinite(t.net))) return false;
+  if (!data.tapes || typeof data.tapes !== "object" || Array.isArray(data.tapes) ||
+      !data.cursors || typeof data.cursors !== "object" || Array.isArray(data.cursors)) return false;
+  for (const [name, bars] of Object.entries(data.tapes))
+    if (!symbol(name) || !Array.isArray(bars) || bars.length < 3 ||
+        !bars.every((b,i) => [b.time,b.open,b.high,b.low,b.close,b.volume].every(Number.isFinite) &&
+          positive(b.open) && positive(b.close) && positive(b.low) &&
+          b.low <= Math.min(b.open,b.close) && b.high >= Math.max(b.open,b.close) &&
+          (i === 0 || b.time > bars[i-1].time))) return false;
+  for (const [name, index] of Object.entries(data.cursors))
+    if (!symbol(name) || !data.tapes[name] || !Number.isInteger(index) ||
+        index < 0 || index >= data.tapes[name].length) return false;
+  return true;
+}
 function restore() {
   if (state) return;
   try {
     const data = JSON.parse(localStorage.getItem("satary-paper-v1") || "null");
-    if (
-      data?.account?.version === 1 &&
-      Number.isFinite(data.account.balance) &&
-      Array.isArray(data.account.positions) &&
-      Array.isArray(data.account.trades) &&
-      Array.isArray(data.account.orders)
-    ) {
+    if (validReplay(data)) {
       state = data.account;
       tapes = data.tapes || {};
       cursors = data.cursors || {};
