@@ -34,3 +34,11 @@ Dependency-free browser modules and an SVG chart; small Node static server. Opti
 Mobile navigation keeps all four workspaces labeled and accessible. Research cards identify synthetic data and imported bar counts; TradingView remains an independent external chart. Local charts support arrow-key navigation after focusing the chart. Journal filters update the displayed performance; CSV export includes the entire journal. Backtest settings persist while navigating within the session.
 
 Verification: `npm test` covers data validation, next-open long/short fills, reversals, costs, journal fee arithmetic, and closed-trade drawdown. Browser visual QA must be performed separately on desktop and mobile before release.
+
+## Economic calendar and news briefing
+
+The Economic Calendar (`#calendar`) embeds TradingView's calendar with economy and importance filters. The News & Briefing page (`#news`) embeds TradingView headlines for equities, currencies, or futures and provides a dated personal briefing with catalysts, context/scenarios, and a session plan. Notes automatically save on input to this browser's localStorage, independently for each date, and can be downloaded as text. There is no cloud sync or automatic AI summary. If storage is unavailable, download notes before navigating away.
+
+Both feeds load third-party scripts from s3.tradingview.com and use TradingView services. Coverage, publication/release times, delays, and displayed timezone are controlled by the provider. Direct TradingView, BLS, BEA, and Federal Reserve links provide alternatives when embedded content is blocked. Feeds do not supply bars to Satary backtests. Navigation supports direct hash links and browser back/forward. Mobile navigation includes all six labeled workspaces.
+
+Additional verification: jsdom interaction checks exercise widget configuration changes, page navigation, briefing autosave/reload, date isolation, and safe rendering of note text. Third-party iframe content and responsive appearance still require visual browser verification.
