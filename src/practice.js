@@ -41,11 +41,13 @@ let state = null,
 function validReplay(data) {
   const a = data?.account;
   const positive = (v) => Number.isFinite(v) && v > 0;
+  const nonnegative = (v) => Number.isFinite(v) && v >= 0;
   const symbol = (v) => typeof v === "string" && Object.hasOwn(instruments, v);
   if (a?.version !== 1 || typeof a.id !== "string" || !a.id ||
       !positive(a.initial) || !Number.isFinite(a.balance) ||
       !Number.isInteger(a.sequence) || a.sequence < 0 ||
-      ![a.fees,a.slipTicks,a.riskPercent,a.dailyLossPercent,a.marginPerContract].every(positive) ||
+      ![a.fees,a.slipTicks].every(nonnegative) ||
+      ![a.riskPercent,a.dailyLossPercent,a.marginPerContract].every(positive) ||
       !Array.isArray(a.orders) || !Array.isArray(a.positions) || !Array.isArray(a.trades)) return false;
   if (!a.positions.every((p) => symbol(p.symbol) && positive(p.entry) &&
       positive(p.mark) && positive(p.stop) && positive(p.target) &&
