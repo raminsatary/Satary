@@ -1,4 +1,4 @@
-name: Publish Satary and refresh briefing
+name: Check Satary and refresh publisher briefing
 on:
   push:
     branches: [main]
@@ -6,20 +6,18 @@ on:
   schedule:
     - cron: "17 * * * *"
 permissions:
-  contents: read
+  contents: write
   pages: write
-  id-token: write
 concurrency:
-  group: satary-pages
+  group: satary-news-refresh
   cancel-in-progress: false
 jobs:
-  publish:
+  refresh:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
@@ -38,16 +36,18 @@ jobs:
         run: python scripts/refresh-news.py
       - name: Report retained snapshot
         if: steps.news.outcome == 'failure'
-        run: echo 'Feed refresh failed; publishing the last committed snapshot with its original timestamp.' >> "$GITHUB_STEP_SUMMARY"
-      - uses: actions/configure-pages@v5
-      - name: Prepare static website
+        run: echo 'Feed refresh failed; retaining the existing snapshot and original timestamp.' >> "$GITHUB_STEP_SUMMARY"
+      - name: Save publisher snapshot
         run: |
-          mkdir -p _site
-          cp index.html .nojekyll _site/
-          cp -R src data _site/
-      - uses: actions/upload-pages-artifact@v4
-        with:
-          path: _site
-      - name: Publish website
-        id: deployment
-        uses: actions/deploy-pages@v4
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/briefing.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Refresh publisher briefing snapshot'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Request existing branch-based Pages build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method POST "repos/${{ github.repository }}/pages/builds"

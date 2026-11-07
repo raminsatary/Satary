@@ -41,7 +41,7 @@ Stops are required; practice protection can tighten but not widen. Default stop 
 
 The scenario notebook stores the user's subjective bullish/range/bearish percentages with an explicit horizon and evidence; percentages must total 100. No default forecast is invented. Replay statistics are non-overlapping historical up/down frequencies in revealed synthetic/imported bars, labeled as descriptive frequencies rather than news-conditioned probabilities. No calibrated prediction model is connected.
 
-The GitHub Pages workflow (`.github/workflows/publish.yml`) runs checks, fetches RSS, and publishes the static site on main updates and hourly at minute 17 (GitHub may delay scheduled runs). If all sources fail, it retains the committed snapshot with its original timestamp. GitHub Pages must use the **GitHub Actions** publishing source for this workflow.
+The GitHub workflow (`.github/workflows/publish.yml`) runs checks, fetches RSS, saves updated snapshots, and requests an existing branch-based GitHub Pages build on main updates and hourly at minute 17 (GitHub may delay scheduled runs). It uses scoped repository contents-write and Pages-write permissions. If all sources fail, it retains the committed snapshot with its original timestamp. Existing Pages publishing remains **main / root**; no administrative hosting-mode change is required.
 
 ## Storage and imports
 
