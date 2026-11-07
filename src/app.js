@@ -1,3 +1,5 @@
+import { learnPage, marketsPage } from "./learn.js";
+import { practicePage, disposePractice } from "./practice.js";
 import { calendarPage, newsPage } from "./macro.js";
 import { mountTradingView, tradingViewSymbols } from "./tradingview.js";
 import {
@@ -107,8 +109,26 @@ const pnl = tradePnl;
 let editingId = null,
   journalFilter = "",
   journalContract = "",
-  journalSide = "";
+  journalSide = "",
+  journalFrom = "",
+  journalTo = "",
+  journalOrigin = "";
 const titles = {
+  start: [
+    "Start here",
+    "Build confidence, one decision at a time.",
+    "Learn, observe, practice with virtual funds, and review your process.",
+  ],
+  markets: [
+    "Market watch",
+    "Find your market. Understand the instrument.",
+    "Stocks, ETFs, and micro futures with separate provider quotes and practice data.",
+  ],
+  practice: [
+    "Demo trading",
+    "Practice the decision. Review the outcome.",
+    "A virtual replay account with chart orders, bracket protection, and automatic journaling.",
+  ],
   calendar: [
     "Economic calendar",
     "Know what’s on the calendar.",
@@ -140,6 +160,27 @@ const titles = {
     "Bring your own history. Know exactly what you’re testing.",
   ],
 };
+function syncPaperTrades(trades) {
+  let synced = [];
+  try {
+    synced = JSON.parse(localStorage.getItem("satary-paper-synced") || "[]");
+    if (!Array.isArray(synced)) synced = [];
+  } catch {}
+  const known = new Set(synced);
+  for (const trade of trades)
+    if (!known.has(trade.id)) {
+      if (!journal.some((t) => t.id === trade.id))
+        journal.unshift({ ...trade });
+      known.add(trade.id);
+    }
+  try {
+    localStorage.setItem("satary-journal", JSON.stringify(journal));
+    localStorage.setItem("satary-paper-synced", JSON.stringify([...known]));
+    $("#trade-count").textContent = journal.length;
+  } catch {
+    toast("Journal storage unavailable. Export your practice account.");
+  }
+}
 function go(p) {
   history.pushState(null, "", `#${p}`);
   page = p;
@@ -147,8 +188,17 @@ function go(p) {
   window.scrollTo({ top: 0 });
 }
 function render() {
+  disposePractice();
+  if ($("#mobile-route")) $("#mobile-route").value = page;
   const t = titles[page];
-  $("#markets").hidden = ["journal", "calendar", "news"].includes(page);
+  $("#markets").hidden = [
+    "start",
+    "markets",
+    "practice",
+    "journal",
+    "calendar",
+    "news",
+  ].includes(page);
   $("#breadcrumb").textContent = t[0];
   $("#page-title").textContent = t[1];
   $("#page-subtitle").textContent = t[2];
@@ -158,6 +208,7 @@ function render() {
     .forEach(
       (b) => (
         b.classList.toggle("active", b.dataset.page === page),
+        b.setAttribute("aria-label", titles[b.dataset.page][0]),
         b.setAttribute(
           "aria-current",
           b.dataset.page === page ? "page" : "false",
@@ -165,6 +216,7 @@ function render() {
       ),
     );
   $("#markets").innerHTML = Object.entries(instruments)
+    .filter(([s]) => ["MNQ", "MES", "MGC"].includes(s))
     .map(([s, info]) => {
       const b = imports[s] || sample(s, interval),
         last = b.at(-1).close,
@@ -181,6 +233,21 @@ function render() {
       }),
   );
   ({
+    start: () => learnPage($("#page")),
+    markets: () =>
+      marketsPage($("#page"), {
+        onSelect: (s, p) => {
+          symbol = s;
+          go(p);
+        },
+      }),
+    practice: () =>
+      practicePage($("#page"), {
+        initialSymbol: symbol,
+        getImport: (s) => imports[s],
+        onGo: go,
+        onTrades: syncPaperTrades,
+      }),
     chart: chartPage,
     journal: journalPage,
     backtest: labPage,
@@ -336,19 +403,34 @@ function journalPage() {
     (t) =>
       (!journalContract || t.symbol === journalContract) &&
       (!journalSide || t.direction === journalSide) &&
-      `${t.notes} ${t.date} ${t.symbol}`
+      (!journalFrom || t.date >= journalFrom) &&
+      (!journalTo || t.date <= journalTo) &&
+      (!journalOrigin || (t.source || "Manual") === journalOrigin) &&
+      `${t.notes} ${t.setup || ""} ${t.emotion || ""} ${t.date} ${t.symbol}`
         .toLowerCase()
         .includes(journalFilter.toLowerCase()),
   );
   const ordered = [...filtered].sort((a, b) => a.date.localeCompare(b.date));
   const r = performance(ordered.map((t) => ({ pnl: pnl(t) })));
   $("#page").innerHTML =
-    `<section class="panel page-panel"><h2>A record of your process</h2><p>Net P&L includes total trade fees. Saved in this browser. Export a backup regularly.</p>${stats(
+    `<section class="panel page-panel"><h2>A record of your process</h2><p>Net P&L includes total trade fees. Saved in this browser. Journal edits do not change the replay account. Export a backup regularly.</p>${stats(
       [
         ["Net P&L", money(r.net)],
         ["Matching trades", filtered.length],
         ["Win rate", r.winRate.toFixed(1) + "%"],
         ["Max drawdown", money(r.drawdown)],
+        ["Expectancy / trade", money(r.average)],
+        [
+          "Average R",
+          filtered.filter((t) => t.initialRisk > 0).length
+            ? (
+                filtered
+                  .filter((t) => t.initialRisk > 0)
+                  .reduce((sum, t) => sum + pnl(t) / t.initialRisk, 0) /
+                filtered.filter((t) => t.initialRisk > 0).length
+              ).toFixed(2) + "R"
+            : "—",
+        ],
       ],
     )}${filtered.length ? equityChart(r.curve) : ""}<div class="journal-filters"><label>Search notes or date<input id="journal-search" type="search" value="${esc(journalFilter)}" placeholder="Search trades"></label><label>Contract<select id="journal-contract"><option value="">All contracts</option>${Object.keys(
       instruments,
@@ -359,7 +441,35 @@ function journalPage() {
       )
       .join(
         "",
-      )}</select></label><label>Direction<select id="journal-side"><option value="">All directions</option>${["Long", "Short"].map((v) => `<option ${v === journalSide ? "selected" : ""}>${v}</option>`).join("")}</select></label><button id="export">Export all trades ↓</button></div><p>${filtered.length} of ${journal.length} trades · Equity ordered by trade date</p><div class="table-wrap"><table><thead><tr><th>DATE</th><th>CONTRACT</th><th>SIDE</th><th>ENTRY → EXIT</th><th>QTY</th><th>FEES</th><th>NET P&L</th><th>NOTES</th><th>ACTIONS</th></tr></thead><tbody>${filtered.map((t) => `<tr><td>${esc(t.date)}</td><td>${t.symbol}</td><td>${t.direction}</td><td>${fmt(t.entry)} → ${fmt(t.exit)}</td><td>${t.quantity}</td><td>${money(t.fees || 0)}</td><td class="${pnl(t) >= 0 ? "positive" : "negative"}">${money(pnl(t))}</td><td class="notes">${esc(t.notes)}</td><td><button data-edit="${esc(t.id)}">Edit</button> <button data-delete="${esc(t.id)}">Delete</button></td></tr>`).join("")}</tbody></table>${!filtered.length ? '<div class="empty-state"><h3>No matching trades yet</h3><p>Log a closed trade or adjust your filters.</p></div>' : ""}</div></section>`;
+      )}</select></label><label>Direction<select id="journal-side"><option value="">All directions</option>${["Long", "Short"].map((v) => `<option ${v === journalSide ? "selected" : ""}>${v}</option>`).join("")}</select></label><label>From date<input id="journal-from" type="date" value="${journalFrom}"></label><label>To date<input id="journal-to" type="date" value="${journalTo}"></label><label>Origin<select id="journal-origin"><option value="">All trades</option><option ${journalOrigin === "Manual" ? "selected" : ""}>Manual</option><option ${journalOrigin === "Paper replay" ? "selected" : ""}>Paper replay</option></select></label><button id="export">Export all trades ↓</button></div><p>${filtered.length} of ${journal.length} trades · Equity ordered by trade date</p><div class="table-wrap"><table><thead><tr><th>DATE</th><th>CONTRACT</th><th>SIDE</th><th>ENTRY → EXIT</th><th>QTY</th><th>FEES</th><th>NET P&L</th><th>NOTES</th><th>ACTIONS</th></tr></thead><tbody>${filtered.map((t) => `<tr><td>${esc(t.date)}</td><td>${t.symbol}</td><td>${t.direction}</td><td>${fmt(t.entry)} → ${fmt(t.exit)}</td><td>${t.quantity}</td><td>${money(t.fees || 0)}</td><td class="${pnl(t) >= 0 ? "positive" : "negative"}">${money(pnl(t))}</td><td class="notes"><strong>${esc(t.setup || "Unclassified")}</strong><small>${esc(t.source || "Manual")} · ${esc(t.emotion || "No emotion recorded")} · Process ${esc(t.rating || "—")}/5${t.initialRisk > 0 ? " · " + (pnl(t) / t.initialRisk).toFixed(2) + "R" : ""}</small><p>${esc(t.notes)}</p>${t.exitReason ? `<small>Exit: ${esc(t.exitReason)}</small>` : ""}</td><td><button data-edit="${esc(t.id)}">Edit</button> <button data-delete="${esc(t.id)}">Delete</button></td></tr>`).join("")}</tbody></table>${!filtered.length ? '<div class="empty-state"><h3>No matching trades yet</h3><p>Log a closed trade or adjust your filters.</p></div>' : ""}</div></section>`;
+  for (const [id, setter] of [
+    ["journal-from", (v) => (journalFrom = v)],
+    ["journal-to", (v) => (journalTo = v)],
+    ["journal-origin", (v) => (journalOrigin = v)],
+  ])
+    $("#" + id).onchange = (e) => {
+      setter(e.target.value);
+      journalPage();
+    };
+  const groups = new Map();
+  for (const t of filtered) {
+    const name = t.setup || "Unclassified";
+    if (!groups.has(name)) groups.set(name, []);
+    groups.get(name).push(t);
+  }
+  $("#page .page-panel").insertAdjacentHTML(
+    "beforeend",
+    `<h3>Review by setup</h3><div class="table-wrap"><table><thead><tr><th>SETUP</th><th>TRADES</th><th>NET P&L</th><th>WIN RATE</th><th>EXPECTANCY</th></tr></thead><tbody>${[
+      ...groups,
+    ]
+      .map(([name, trades]) => {
+        const m = performance(trades.map((t) => ({ pnl: pnl(t) })));
+        return `<tr><td>${esc(name)}</td><td>${trades.length}</td><td>${money(m.net)}</td><td>${m.winRate.toFixed(1)}%</td><td>${money(m.average)}</td></tr>`;
+      })
+      .join(
+        "",
+      )}</tbody></table></div><p>R = net P&L ÷ initial price risk, excluding costs from the denominator. Setup statistics describe this sample; they do not establish future profitability.</p>`,
+  );
   $("#journal-search").oninput = (e) => {
     const pos = e.target.selectionStart;
     journalFilter = e.target.value;
@@ -413,6 +523,14 @@ function journalPage() {
         "fees",
         "net_pnl",
         "notes",
+        "setup",
+        "emotion",
+        "rating",
+        "initial_risk",
+        "source",
+        "entry_time",
+        "exit_time",
+        "exit_reason",
       ],
       ...journal.map((t) => [
         t.date,
@@ -424,6 +542,14 @@ function journalPage() {
         t.fees || 0,
         pnl(t),
         t.notes,
+        t.setup || "",
+        t.emotion || "",
+        t.rating || "",
+        t.initialRisk || "",
+        t.source || "Manual",
+        t.entryTime ? new Date(t.entryTime).toISOString() : "",
+        t.exitTime ? new Date(t.exitTime).toISOString() : "",
+        t.exitReason || "",
       ]),
     ];
     download(
@@ -563,6 +689,10 @@ function dataPage() {
       render();
     };
 }
+$("#trade-form").elements.symbol.innerHTML = Object.keys(instruments)
+  .map((s) => `<option>${s}</option>`)
+  .join("");
+$("#mobile-route").onchange = (e) => go(e.target.value);
 document
   .querySelectorAll("[data-page]")
   .forEach((b) => (b.onclick = () => go(b.dataset.page)));
@@ -593,6 +723,13 @@ $("#trade-form").onsubmit = (e) => {
     t.fees >= 0
   ))
     return;
+  t.initialRisk = Number(t.initialRisk) || 0;
+  const prior = journal.find((old) => old.id === editingId);
+  if (prior)
+    ((t.source = prior.source),
+      (t.entryTime = prior.entryTime),
+      (t.exitTime = prior.exitTime),
+      (t.exitReason = prior.exitReason));
   t.id = editingId || crypto.randomUUID();
   if (editingId)
     journal = journal.map((old) => (old.id === editingId ? t : old));
@@ -604,7 +741,7 @@ $("#trade-form").onsubmit = (e) => {
 };
 const route = () => {
   const requested = location.hash.slice(1);
-  page = Object.hasOwn(titles, requested) ? requested : "chart";
+  page = Object.hasOwn(titles, requested) ? requested : "start";
   render();
 };
 window.addEventListener("popstate", route);

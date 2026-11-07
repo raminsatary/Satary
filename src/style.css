@@ -1511,3 +1511,535 @@ td {
     gap: 16px;
   }
 }
+/* Beginner journey, market discovery and execution practice. */
+.sidebar {
+  overflow-y: auto;
+}
+.sidebar nav {
+  gap: 3px;
+}
+.sidebar nav button {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.sidebar-bottom {
+  padding-top: 18px;
+}
+.welcome-panel {
+  padding: 34px;
+  border-radius: 16px;
+  background: linear-gradient(120deg, #dcecdc, #f7fbf1);
+  border: 1px solid #c9ddca;
+}
+.welcome-panel h2 {
+  font-family: Manrope, sans-serif;
+  font-size: 35px;
+  letter-spacing: -1px;
+  max-width: 600px;
+  margin: 14px 0;
+}
+.welcome-panel p {
+  max-width: 680px;
+  font-size: 15px;
+}
+.welcome-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 23px;
+}
+.journey-strip {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 22px 0;
+  color: #3d6e4b;
+  font-size: 12px;
+  font-weight: 600;
+}
+.lesson-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 22px;
+}
+.lesson-card {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.lesson-card h3 {
+  font-size: 16px;
+}
+.lesson-card p {
+  font-size: 13px;
+}
+.lesson-number {
+  color: #5c8a65;
+  font-size: 23px;
+  font-weight: 700;
+}
+.lesson-task {
+  background: #f1f6ef;
+  padding: 12px;
+  font-size: 12px;
+  line-height: 1.7;
+  border-radius: 7px;
+  margin: 14px 0;
+}
+.lesson-card a {
+  font-size: 12px;
+  color: #246146;
+}
+.check-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+.check-label input {
+  width: 18px;
+  min-height: 18px;
+  margin: 0;
+  accent-color: #276b4c;
+}
+.risk-school,
+.market-picker,
+.scenario-panel {
+  margin-top: 22px;
+}
+.sizing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 18px;
+  margin-top: 24px;
+}
+.sizing-grid button {
+  align-self: center;
+}
+.instrument-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.instrument-card {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 20px;
+}
+.instrument-card h3 {
+  font-size: 22px;
+  margin: 13px 0 8px;
+}
+.instrument-card button {
+  font-size: 12px;
+  margin: 5px 3px 0 0;
+}
+.training-banner {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  background: #eaf3e7;
+  border: 1px solid #cfdfcb;
+  padding: 15px 18px;
+  border-radius: 9px;
+  font-size: 11px;
+  color: #3f6548;
+}
+.training-banner strong {
+  letter-spacing: 0.8px;
+}
+.practice-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 330px;
+  gap: 20px;
+  align-items: start;
+}
+.practice-tools {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+}
+.practice-tools label {
+  font-size: 11px;
+  min-width: 90px;
+}
+.practice-tools select {
+  font-size: 12px;
+  margin: 5px 0 0;
+  min-height: 34px;
+  padding: 7px;
+}
+.practice-tools button {
+  font-size: 12px;
+  margin-top: 18px;
+}
+.practice-chart {
+  display: block;
+  width: 100%;
+  height: 390px;
+  cursor: crosshair;
+  touch-action: manipulation;
+}
+.chart-trade-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px;
+  flex-wrap: wrap;
+}
+.buy-button {
+  color: #1e714c;
+  border-color: #9bc8aa;
+  background: #eff9f0;
+}
+.sell-button {
+  color: #a6473e;
+  border-color: #d7aaa1;
+  background: #fff4f1;
+}
+.chart-trade-buttons label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 11px;
+}
+.chart-trade-buttons select {
+  width: 90px;
+  margin: 0;
+  min-height: 32px;
+  padding: 6px;
+}
+.chart-readout {
+  padding: 0 14px;
+  font-size: 11px;
+  min-height: 20px;
+}
+.indicator-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 12px 15px;
+  background: #f4f8f1;
+  color: #4e6b55;
+  font-size: 11px;
+}
+.panel-explanation {
+  padding: 16px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+}
+.panel-explanation p {
+  font-size: 12px;
+  margin-bottom: 0;
+}
+.order-panel h2 {
+  font-size: 18px;
+}
+.order-panel p {
+  font-size: 12px;
+}
+.order-panel .form-grid {
+  gap: 0 10px;
+}
+.order-panel input,
+.order-panel select {
+  font-size: 12px;
+}
+.order-panel summary {
+  font-size: 12px;
+  color: #276b4c;
+  cursor: pointer;
+  padding: 14px 0;
+}
+.order-panel > button {
+  margin-top: 15px;
+}
+.risk-preview {
+  padding: 12px;
+  background: #f0f5ec;
+  border-radius: 7px;
+  line-height: 1.8;
+}
+.dataset-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+.dataset-actions button {
+  font-size: 11px;
+}
+.trade-management {
+  margin-top: 22px;
+}
+.trade-management td {
+  min-width: 120px;
+}
+.trade-management input {
+  min-width: 95px;
+  margin-bottom: 7px;
+}
+.trade-management label {
+  font-size: 10px;
+}
+.trade-management button {
+  font-size: 11px;
+  margin: 4px 0;
+}
+.order-panel #practice-status {
+  color: #7d4f22;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+.source-health {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+}
+.source-health a {
+  color: #276b4c;
+  font-size: 12px;
+}
+.brief-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.brief-card {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  min-width: 0;
+}
+.brief-card h3 {
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 12px 0;
+}
+.brief-card a {
+  color: #285d42;
+  text-decoration: none;
+}
+.brief-card a:hover {
+  text-decoration: underline;
+}
+.brief-card time {
+  font-size: 10px;
+  color: #627868;
+}
+.brief-card .card-heading {
+  flex-wrap: wrap;
+}
+.brief-card p {
+  font-size: 12px;
+}
+.impact-note {
+  padding: 12px;
+  background: #f3f7ef;
+  border-radius: 7px;
+  font-size: 12px;
+}
+.impact-note summary {
+  cursor: pointer;
+  font-size: 12px;
+  color: #365e3f;
+  font-weight: 600;
+}
+.impact-note strong {
+  display: block;
+  margin-top: 13px;
+}
+.impact-note small {
+  font-size: 11px;
+  color: #546d58;
+  line-height: 1.6;
+}
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.mobile-route-label {
+  display: none;
+}
+.briefing-layout {
+  margin-top: 22px;
+}
+.journal-filters {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.notes {
+  min-width: 200px;
+}
+.notes small {
+  line-height: 1.7;
+}
+.notes strong {
+  font-size: 12px;
+}
+@media (max-width: 1300px) {
+  .practice-layout {
+    grid-template-columns: 1fr;
+  }
+  .order-panel {
+    display: block;
+  }
+  .order-panel form#paper-order {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 0 18px;
+  }
+  .order-panel #paper-order > .form-grid {
+    grid-column: 2;
+    grid-row: 1/4;
+  }
+  .order-panel #paper-order > .primary {
+    align-self: center;
+  }
+  .lesson-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .practice-chart {
+    height: 400px;
+  }
+}
+@media (max-width: 800px) {
+  .instrument-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .brief-cards {
+    grid-template-columns: 1fr;
+  }
+  .sizing-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .lesson-grid {
+    grid-template-columns: 1fr;
+  }
+  .welcome-panel h2 {
+    font-size: 30px;
+  }
+}
+@media (max-width: 600px) {
+  .sidebar nav {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .sidebar nav button[data-page="chart"],
+  .sidebar nav button[data-page="calendar"],
+  .sidebar nav button[data-page="backtest"],
+  .sidebar nav button[data-page="data"] {
+    display: none;
+  }
+  .sidebar nav button span {
+    font-size: 9px;
+  }
+  .sidebar nav button {
+    min-height: 55px;
+  }
+  .sidebar {
+    overflow: visible;
+  }
+  main {
+    padding-bottom: 83px;
+  }
+  .mobile-route-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+  }
+  .mobile-route-label select {
+    font-size: 11px;
+    max-width: 150px;
+    margin: 0;
+    padding: 6px;
+    min-height: 32px;
+  }
+  header > div:first-of-type {
+    display: none;
+  }
+  header .header-right {
+    display: none;
+  }
+  .welcome-panel {
+    padding: 24px;
+  }
+  .welcome-panel h2 {
+    font-size: 28px;
+  }
+  .welcome-panel p {
+    font-size: 13px;
+  }
+  .journey-strip {
+    font-size: 10px;
+    gap: 8px;
+  }
+  .lesson-card {
+    padding: 18px;
+  }
+  .instrument-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .instrument-card {
+    padding: 13px;
+  }
+  .instrument-card h3 {
+    font-size: 18px;
+  }
+  .instrument-card p {
+    font-size: 11px;
+  }
+  .instrument-card button {
+    font-size: 10px;
+    padding: 8px;
+  }
+  .sizing-grid {
+    grid-template-columns: 1fr;
+  }
+  .practice-chart {
+    height: 310px;
+  }
+  .order-panel form#paper-order {
+    display: block;
+  }
+  .practice-tools button {
+    margin-top: 8px;
+  }
+  .practice-tools {
+    gap: 8px;
+  }
+  .practice-tools label {
+    flex: 1;
+  }
+  .chart-title p {
+    font-size: 10px;
+  }
+  .chart-trade-buttons button {
+    font-size: 12px;
+  }
+  .training-banner {
+    font-size: 10px;
+  }
+  .journal-filters {
+    grid-template-columns: 1fr 1fr;
+  }
+  .scenario-grid {
+    gap: 8px;
+  }
+  .scenario-grid label {
+    font-size: 10px;
+  }
+  .brief-card {
+    padding: 15px;
+  }
+  .source-health a {
+    font-size: 11px;
+  }
+}

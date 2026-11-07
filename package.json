@@ -1,1 +1,19 @@
-{"name":"satary","version":"0.1.0","private":true,"type":"module","scripts":{"dev":"node server.js","start":"node server.js","test":"node --test"},"engines":{"node":">=22"}}
+{
+  "name": "satary",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "test": "node --test",
+    "test:ui": "node scripts/check-ui.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "jsdom": "31.0.0"
+  }
+}

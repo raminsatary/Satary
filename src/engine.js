@@ -1,8 +1,53 @@
 export const instruments = {
-  MNQ: { name: "Micro E-mini Nasdaq-100", base: 21480, tick: 0.25, point: 2 },
-  MES: { name: "Micro E-mini S&P 500", base: 5890, tick: 0.25, point: 5 },
-  MGC: { name: "Micro Gold", base: 2740, tick: 0.1, point: 10 },
+  MNQ: {
+    name: "Micro E-mini Nasdaq-100",
+    kind: "future",
+    base: 21480,
+    tick: 0.25,
+    point: 2,
+  },
+  MES: {
+    name: "Micro E-mini S&P 500",
+    kind: "future",
+    base: 5890,
+    tick: 0.25,
+    point: 5,
+  },
+  MGC: { name: "Micro Gold", kind: "future", base: 2740, tick: 0.1, point: 10 },
 };
+Object.assign(instruments, {
+  MYM: {
+    name: "Micro E-mini Dow",
+    kind: "future",
+    base: 42000,
+    tick: 1,
+    point: 0.5,
+  },
+  M2K: {
+    name: "Micro E-mini Russell 2000",
+    kind: "future",
+    base: 2200,
+    tick: 0.1,
+    point: 5,
+  },
+  AAPL: { name: "Apple", kind: "stock", base: 220, tick: 0.01, point: 1 },
+  MSFT: { name: "Microsoft", kind: "stock", base: 420, tick: 0.01, point: 1 },
+  NVDA: { name: "NVIDIA", kind: "stock", base: 140, tick: 0.01, point: 1 },
+  SPY: {
+    name: "SPDR S&P 500 ETF",
+    kind: "etf",
+    base: 580,
+    tick: 0.01,
+    point: 1,
+  },
+  QQQ: {
+    name: "Invesco QQQ ETF",
+    kind: "etf",
+    base: 500,
+    tick: 0.01,
+    point: 1,
+  },
+});
 export function sample(symbol = "MNQ", minutes = 5) {
   let seed = 42;
   const rand = () => {
@@ -19,8 +64,16 @@ export function sample(symbol = "MNQ", minutes = 5) {
     return {
       time: Date.UTC(2026, 9, 27, 13, 30) + i * minutes * 60000,
       open,
-      high: Math.max(open, price) + rand() * 8,
-      low: Math.min(open, price) - rand() * 8,
+      high:
+        Math.round(
+          (Math.max(open, price) + rand() * instruments[symbol].base * 0.0004) /
+            instruments[symbol].tick,
+        ) * instruments[symbol].tick,
+      low:
+        Math.round(
+          (Math.min(open, price) - rand() * instruments[symbol].base * 0.0004) /
+            instruments[symbol].tick,
+        ) * instruments[symbol].tick,
       close: price,
       volume: Math.round(200 + rand() * 1800),
     };

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta
       name="description"
-      content="Satary: a focused futures trading workspace with market charts, a private local trade journal, CSV research, and cost-aware strategy backtesting."
+      content="Satary: learn trading basics, explore stocks and micro futures, practice chart-based demo orders, journal your trades, and follow multi-source market briefings."
     />
     <meta name="theme-color" content="#206647" />
     <title>Satary — Your trading workspace</title>
@@ -25,7 +25,10 @@
       </div>
       <div class="nav-label">WORKSPACE</div>
       <nav aria-label="Workspace">
-        <button class="active" data-page="chart">
+        <button data-page="start">⌂ <span>Start here</span></button
+        ><button data-page="markets">▥ <span>Market watch</span></button
+        ><button data-page="practice">▷ <span>Demo trading</span></button
+        ><button class="active" data-page="chart">
           ◫ <span>Chart workspace</span></button
         ><button data-page="journal">
           ▤ <span>Trade journal</span><em id="trade-count">0</em></button
@@ -48,13 +51,26 @@
     </aside>
     <main>
       <header>
+        <label class="mobile-route-label"
+          >Workspace<select id="mobile-route" aria-label="Choose workspace">
+            <option value="start">Start here</option>
+            <option value="markets">Market watch</option>
+            <option value="practice">Demo trading</option>
+            <option value="chart">Chart workspace</option>
+            <option value="journal">Trade journal</option>
+            <option value="calendar">Economic calendar</option>
+            <option value="news">News & briefing</option>
+            <option value="backtest">Strategy lab</option>
+            <option value="data">Data library</option>
+          </select></label
+        >
         <div>
           <span class="crumb">Workspace</span><span class="slash">/</span
           ><span id="breadcrumb">Chart workspace</span>
         </div>
         <div class="header-right">
-          <span class="status-dot"></span> Local journal · External market
-          charts <span class="avatar small">ME</span>
+          <span class="status-dot"></span> Demo practice · Local journal
+          <span class="avatar small">ME</span>
         </div>
       </header>
       <div class="content">
@@ -131,6 +147,39 @@
               value="0"
               required /></label
           ><label>Date<input name="date" type="date" required /></label>
+        </div>
+        <div class="form-grid">
+          <label
+            >Setup<input
+              name="setup"
+              maxlength="80"
+              placeholder="Trend pullback, breakout…" /></label
+          ><label
+            >Emotion<select name="emotion">
+              <option value="">Select emotion</option>
+              <option>Calm</option>
+              <option>Confident</option>
+              <option>Anxious</option>
+              <option>FOMO</option>
+              <option>Frustrated</option>
+            </select></label
+          ><label
+            >Process rating (1–5)<select name="rating">
+              <option value="">Not rated</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select></label
+          ><label
+            >Initial price risk ($)<input
+              name="initialRisk"
+              type="number"
+              min="0"
+              step="any"
+              placeholder="For R-multiple review"
+          /></label>
         </div>
         <label
           >Trade notes<textarea
