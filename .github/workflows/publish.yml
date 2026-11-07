@@ -8,10 +8,10 @@ on:
   schedule:
     - cron: "17 * * * *"
 permissions:
-  contents: write
-  pages: write
+  contents: read
+  pages: read
 concurrency:
-  group: satary-news-refresh
+  group: satary-news-refresh-${{ github.event_name == 'pull_request' && github.event.pull_request.number || 'main' }}
   cancel-in-progress: false
 jobs:
   refresh:
@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || 'main' }}
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
