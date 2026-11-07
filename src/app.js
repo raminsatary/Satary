@@ -1,3 +1,4 @@
+import { calendarPage, newsPage } from "./macro.js";
 import { mountTradingView, tradingViewSymbols } from "./tradingview.js";
 import {
   instruments,
@@ -108,6 +109,16 @@ let editingId = null,
   journalContract = "",
   journalSide = "";
 const titles = {
+  calendar: [
+    "Economic calendar",
+    "Know what’s on the calendar.",
+    "Plan your session around the releases that matter.",
+  ],
+  news: [
+    "News & briefing",
+    "Make room for the bigger picture.",
+    "Follow market headlines and build your own session briefing.",
+  ],
   chart: [
     "Chart workspace",
     "Your market. Your perspective.",
@@ -130,13 +141,14 @@ const titles = {
   ],
 };
 function go(p) {
+  history.pushState(null, "", `#${p}`);
   page = p;
   render();
   window.scrollTo({ top: 0 });
 }
 function render() {
   const t = titles[page];
-  $("#markets").hidden = page === "journal";
+  $("#markets").hidden = ["journal", "calendar", "news"].includes(page);
   $("#breadcrumb").textContent = t[0];
   $("#page-title").textContent = t[1];
   $("#page-subtitle").textContent = t[2];
@@ -173,6 +185,8 @@ function render() {
     journal: journalPage,
     backtest: labPage,
     data: dataPage,
+    calendar: () => calendarPage($("#page")),
+    news: () => newsPage($("#page")),
   })[page]();
   document
     .querySelectorAll("[data-go]")
@@ -588,7 +602,13 @@ $("#trade-form").onsubmit = (e) => {
   $("#trade-dialog").close();
   render();
 };
-render();
+const route = () => {
+  const requested = location.hash.slice(1);
+  page = Object.hasOwn(titles, requested) ? requested : "chart";
+  render();
+};
+window.addEventListener("popstate", route);
+route();
 
 function chartPage() {
   const toolbar = `<div class="source-toolbar"><div><strong>Chart source</strong><span>Market view or your research data</span></div><div class="source-toggle" role="group" aria-label="Chart source"><button id="source-tv" class="${chartSource === "tradingview" ? "active" : ""}">TradingView</button><button id="source-local" class="${chartSource === "local" ? "active" : ""}">Demo / imported CSV</button></div></div>`;
