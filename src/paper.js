@@ -96,12 +96,12 @@ function check(s, o, price, time) {
   const pending = s.orders.filter((order) => order.status === "working");
   const pendingReserve = pending.reduce(
     (n, order) =>
-      n + reserve(order.symbol, order.quantity, order.type === "market" ? price : order.price),
+      n + reserve(order.symbol, order.quantity, order.type === "market" ? (order.submittedMark ?? price) : order.price),
     0,
   );
   const pendingRisk = pending.reduce(
     (n, order) =>
-      n + plannedRisk(s, order, order.type === "market" ? price : order.price),
+      n + plannedRisk(s, order, order.type === "market" ? (order.submittedMark ?? price) : order.price),
     0,
   );
   if (pendingRisk + plannedRisk(s, o, price) > (equity * s.riskPercent) / 100)
@@ -132,6 +132,7 @@ export function submitOrder(state, spec, mark, index, time) {
     status: "working",
     submittedIndex: index,
     submittedAt: time,
+    submittedMark: mark,
   });
   return s;
 }
