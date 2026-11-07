@@ -174,7 +174,7 @@ test("trailing protection tightens at close for the next bar and never widens", 
 test("pending orders reserve combined risk and buying power", () => {
   let s = newAccount();
   s.riskPercent = 1;
-  s = queue(s, { quantity: 10 });
+  s = queue(s, { quantity: 20 });
   assert.throws(() => queue(s, { quantity: 2 }), /Combined working-order risk/);
   let small = newAccount(2500);
   small.riskPercent = 5;
