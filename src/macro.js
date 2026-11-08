@@ -1,5 +1,5 @@
 import { mountIntelligence, mountScenarios } from "./intelligence.js";
-// External feeds stay separate from Satary's local research and journal data.
+// External feeds stay separate from Trade Rehearsal's local research and journal data.
 const externalLink = (url, label) =>
   `<a href="${url}" target="_blank" rel="noopener noreferrer">${label} ↗</a>`;
 function mountFeed(host, kind, config) {
@@ -56,7 +56,7 @@ export function calendarPage(container) {
 }
 export function newsPage(container) {
   const today = new Date().toLocaleDateString("en-CA");
-  container.innerHTML = `<div id="intelligence-space"></div><div class="briefing-layout"><section class="panel page-panel"><div class="card-heading"><h2>Market headlines</h2><span class="badge">TRADINGVIEW</span></div><p>Read the latest available reporting from the external feed. Publication times and coverage are supplied by the provider.</p><div class="macro-controls"><label>Coverage<select id="news-market"><option value="stock">Equities</option><option value="forex">Currencies</option><option value="futures">Futures</option></select></label><button id="news-refresh">Reload headlines ↻</button></div><div class="macro-feed news-feed" id="news-feed" aria-label="TradingView market news"></div><p class="help" role="status">If headlines are unavailable, use the news sources below. Satary does not generate or verify these headlines.</p><div class="source-links">${externalLink("https://www.tradingview.com/news/", "All market news")}${externalLink("https://www.federalreserve.gov/newsevents.htm", "Federal Reserve news")}${externalLink("https://www.bls.gov/bls/newsrels.htm", "BLS releases")}</div></section><section class="panel page-panel briefing-notes"><h2>Your session briefing</h2><p>Personal notes, saved on this device by date. This is your research space; it is not an automatically generated news summary.</p><form id="briefing-form"><label>Session date<input id="briefing-date" type="date" value="${today}" required></label><label>Key catalysts<textarea name="catalysts" rows="4" maxlength="12000" placeholder="Releases, central bank speakers, earnings, and source links…"></textarea></label><label>Market context & scenarios<textarea name="context" rows="4" maxlength="12000" placeholder="What matters for MNQ, MES, and MGC? What would change your view?"></textarea></label><label>Session plan<textarea name="plan" rows="4" maxlength="12000" placeholder="Levels to watch, risk limits, and times to reassess…"></textarea></label><div class="briefing-actions"><button class="primary" type="submit">Save briefing</button><button id="briefing-export" type="button">Download notes ↓</button></div><p id="briefing-status" role="status" aria-live="polite"></p></form><button data-go="calendar" class="text-button">Review the economic calendar →</button></section></div>`;
+  container.innerHTML = `<div id="intelligence-space"></div><div class="briefing-layout"><section class="panel page-panel"><div class="card-heading"><h2>Market headlines</h2><span class="badge">TRADINGVIEW</span></div><p>Read the latest available reporting from the external feed. Publication times and coverage are supplied by the provider.</p><div class="macro-controls"><label>Coverage<select id="news-market"><option value="stock">Equities</option><option value="forex">Currencies</option><option value="futures">Futures</option></select></label><button id="news-refresh">Reload headlines ↻</button></div><div class="macro-feed news-feed" id="news-feed" aria-label="TradingView market news"></div><p class="help" role="status">If headlines are unavailable, use the news sources below. Trade Rehearsal does not generate or verify these headlines.</p><div class="source-links">${externalLink("https://www.tradingview.com/news/", "All market news")}${externalLink("https://www.federalreserve.gov/newsevents.htm", "Federal Reserve news")}${externalLink("https://www.bls.gov/bls/newsrels.htm", "BLS releases")}</div></section><section class="panel page-panel briefing-notes"><h2>Your session briefing</h2><p>Personal notes, saved on this device by date. This is your research space; it is not an automatically generated news summary.</p><form id="briefing-form"><label>Session date<input id="briefing-date" type="date" value="${today}" required></label><label>Key catalysts<textarea name="catalysts" rows="4" maxlength="12000" placeholder="Releases, central bank speakers, earnings, and source links…"></textarea></label><label>Market context & scenarios<textarea name="context" rows="4" maxlength="12000" placeholder="What matters for MNQ, MES, and MGC? What would change your view?"></textarea></label><label>Session plan<textarea name="plan" rows="4" maxlength="12000" placeholder="Levels to watch, risk limits, and times to reassess…"></textarea></label><div class="briefing-actions"><button class="primary" type="submit">Save briefing</button><button id="briefing-export" type="button">Download notes ↓</button></div><p id="briefing-status" role="status" aria-live="polite"></p></form><button data-go="calendar" class="text-button">Review the economic calendar →</button></section></div>`;
   const market = container.querySelector("#news-market");
   const load = () =>
     mountFeed(container.querySelector("#news-feed"), "timeline", {
@@ -137,7 +137,7 @@ export function newsPage(container) {
   };
   container.querySelector("#briefing-export").onclick = () => {
     const text =
-      `Satary session briefing — ${activeDate}\n\n` +
+      `Trade Rehearsal session briefing — ${activeDate}\n\n` +
       fields
         .map(
           (field) =>
@@ -149,7 +149,7 @@ export function newsPage(container) {
       ),
       a = document.createElement("a");
     a.href = url;
-    a.download = `satary-briefing-${activeDate}.txt`;
+    a.download = `trade-rehearsal-briefing-${activeDate}.txt`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };

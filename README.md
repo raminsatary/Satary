@@ -1,4 +1,4 @@
-# Satary — learn, observe, practice, reflect
+# Trade Rehearsal — learn, observe, practice, reflect
 
 A beginner-oriented market research and replay-trading workspace, hosted at https://raminsatary.github.io/Satary/.
 
@@ -29,7 +29,7 @@ Development dependencies are used only for DOM integration checks. The Node test
 
 ## Data and execution boundaries
 
-**Provider market quotes do not drive simulated orders.** TradingView widgets are third-party displays; they do not share quotes or bars with Satary. Quotes can be delayed or unavailable depending on exchange permissions and provider coverage. No broker, licensed programmatic live feed, or real-money routing is connected. MNQ/MES/MGC are futures contracts; indexes, ETF shares, and futures are distinct instruments.
+**Provider market quotes do not drive simulated orders.** TradingView widgets are third-party displays; they do not share quotes or bars with Trade Rehearsal. Quotes can be delayed or unavailable depending on exchange permissions and provider coverage. No broker, licensed programmatic live feed, or real-money routing is connected. MNQ/MES/MGC are futures contracts; indexes, ETF shares, and futures are distinct instruments.
 
 Replay uses deterministic synthetic bars by default, or selected imported CSV history. Synthetic baselines are examples, not current market prices. The replay reveals one completed bar at a time. Each instrument has its own clock; non-selected positions retain their latest replay mark. Orders cannot fill on their submission bar. Market/stop fills include adverse slippage; limits respect their price. If both bracket levels occur within one OHLC bar, the stop is taken first. A new intrabar entry conservatively permits an adverse stop but defers its target unless entered at the open. Trailing stops tighten after a completed bar and apply on the next bar.
 
