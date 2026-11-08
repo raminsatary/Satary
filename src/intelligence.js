@@ -113,7 +113,7 @@ export function mountScenarios(host) {
   try {
     saved = JSON.parse(localStorage.getItem(key) || "{}") || {};
   } catch {}
-  host.innerHTML = `<section class="panel page-panel scenario-panel"><h2>Scenario notebook · ${date}</h2><p>Assign your own subjective odds for one instrument and horizon. These are planning assumptions, not Satary forecasts. Probabilities must total 100%; news context above does not calculate them.</p><form id="scenario-form"><div class="form-grid"><label>Instrument<input name="instrument" value="${escape(saved.instrument || "MNQ")}" maxlength="30" required></label><label>Horizon<input name="horizon" value="${escape(saved.horizon || "Next session")}" maxlength="80" required></label></div><div class="scenario-grid">${[
+  host.innerHTML = `<section class="panel page-panel scenario-panel"><h2>Scenario notebook · ${date}</h2><p>Assign your own subjective odds for one instrument and horizon. These are planning assumptions, not Trade Rehearsal forecasts. Probabilities must total 100%; news context above does not calculate them.</p><form id="scenario-form"><div class="form-grid"><label>Instrument<input name="instrument" value="${escape(saved.instrument || "MNQ")}" maxlength="30" required></label><label>Horizon<input name="horizon" value="${escape(saved.horizon || "Next session")}" maxlength="80" required></label></div><div class="scenario-grid">${[
     ["bull", "Bullish"],
     ["base", "Range / mixed"],
     ["bear", "Bearish"],

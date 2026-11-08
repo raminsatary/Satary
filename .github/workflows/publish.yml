@@ -1,4 +1,4 @@
-name: Check Satary and refresh publisher briefing
+name: Check Trade Rehearsal and refresh publisher briefing
 on:
   push:
     branches: [main]

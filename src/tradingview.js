@@ -1,5 +1,5 @@
 // Official TradingView Advanced Chart widget. The embedded chart owns its data;
-// no quote or candle values are read back into Satary.
+// no quote or candle values are read back into Trade Rehearsal.
 export const tradingViewSymbols = {
   MNQ: "CME_MINI:MNQ1!",
   MES: "CME_MINI:MES1!",

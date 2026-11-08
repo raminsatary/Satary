@@ -385,7 +385,7 @@ export function practicePage(
         ),
         a = document.createElement("a");
       a.href = url;
-      a.download = "satary-practice-backup.json";
+      a.download = "trade-rehearsal-practice-backup.json";
       a.click();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     };

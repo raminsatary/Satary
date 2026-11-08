@@ -2043,3 +2043,35 @@ td {
     font-size: 11px;
   }
 }
+
+/* Trade Rehearsal wordmark. */
+.brand .brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  background: #206647;
+  color: #fff;
+  border-radius: 9px;
+  font-size: 14px;
+  letter-spacing: -0.5px;
+}
+.brand .brand-name {
+  font-size: 18px;
+  line-height: 1.15;
+  letter-spacing: -0.45px;
+}
+.footer-logo {
+  font-size: 14px;
+  letter-spacing: -0.5px;
+}
+@media (max-width: 900px) and (min-width: 601px) {
+  .brand .brand-name {
+    display: none;
+  }
+  .brand .brand-mark {
+    display: inline-flex;
+  }
+}
