@@ -191,6 +191,12 @@ function render() {
   disposePractice();
   if ($("#mobile-route")) $("#mobile-route").value = page;
   const t = titles[page];
+  $("#log-trade").textContent =
+    page === "journal"
+      ? "+ Log a closed trade"
+      : page === "practice"
+        ? "Review journal →"
+        : "Start demo trading →";
   $("#markets").hidden = [
     "start",
     "markets",
@@ -708,7 +714,10 @@ function openTrade(t) {
   $("#trade-dialog h2").textContent = t ? "Edit trade" : "Log a trade";
   $("#trade-dialog").showModal();
 }
-$("#log-trade").onclick = () => openTrade();
+$("#log-trade").onclick = () => {
+  if (page === "journal") openTrade();
+  else go(page === "practice" ? "journal" : "practice");
+};
 $("#close-dialog").onclick = () => $("#trade-dialog").close();
 $("#trade-form").onsubmit = (e) => {
   e.preventDefault();

@@ -37,41 +37,110 @@ let state = null,
   windowBars = 65,
   overlay = "sma",
   drawMode = "entry",
-  level = null;
+  level = null,
+  autoAdvanceMarket = true;
 function validReplay(data) {
   const a = data?.account;
   const positive = (v) => Number.isFinite(v) && v > 0;
   const symbol = (v) => typeof v === "string" && Object.hasOwn(instruments, v);
-  if (a?.version !== 1 || typeof a.id !== "string" || !a.id ||
-      !positive(a.initial) || !Number.isFinite(a.balance) ||
-      !Number.isInteger(a.sequence) || a.sequence < 0 ||
-      ![a.fees,a.slipTicks,a.riskPercent,a.dailyLossPercent,a.marginPerContract].every(positive) ||
-      !Array.isArray(a.orders) || !Array.isArray(a.positions) || !Array.isArray(a.trades)) return false;
-  if (!a.positions.every((p) => symbol(p.symbol) && positive(p.entry) &&
-      positive(p.mark) && positive(p.stop) && positive(p.target) &&
-      Number.isInteger(p.quantity) && p.quantity > 0 && [-1,1].includes(p.side) &&
-      Number.isFinite(p.entryFees) && p.entryFees >= 0)) return false;
-  if (!a.orders.every((o) => symbol(o.symbol) &&
-      ["working","filled","cancelled","rejected"].includes(o.status) &&
-      ["buy","sell"].includes(o.side) && ["market","limit","stop"].includes(o.type) &&
-      Number.isInteger(o.quantity) && o.quantity > 0 &&
-      positive(o.stop) && positive(o.target) &&
-      (o.type === "market" || positive(o.price)) &&
-      Number.isInteger(o.submittedIndex) && o.submittedIndex >= 0)) return false;
-  if (!a.trades.every((t) => symbol(t.symbol) && positive(t.entry) &&
-      positive(t.exit) && Number.isInteger(t.quantity) && t.quantity > 0 &&
-      Number.isFinite(t.net))) return false;
-  if (!data.tapes || typeof data.tapes !== "object" || Array.isArray(data.tapes) ||
-      !data.cursors || typeof data.cursors !== "object" || Array.isArray(data.cursors)) return false;
+  if (
+    a?.version !== 1 ||
+    typeof a.id !== "string" ||
+    !a.id ||
+    !positive(a.initial) ||
+    !Number.isFinite(a.balance) ||
+    !Number.isInteger(a.sequence) ||
+    a.sequence < 0 ||
+    ![a.riskPercent, a.dailyLossPercent, a.marginPerContract].every(positive) ||
+    ![a.fees, a.slipTicks].every((v) => Number.isFinite(v) && v >= 0) ||
+    !Number.isInteger(a.slipTicks) ||
+    !Array.isArray(a.orders) ||
+    !Array.isArray(a.positions) ||
+    !Array.isArray(a.trades)
+  )
+    return false;
+  if (
+    !a.positions.every(
+      (p) =>
+        symbol(p.symbol) &&
+        positive(p.entry) &&
+        positive(p.mark) &&
+        positive(p.stop) &&
+        positive(p.target) &&
+        Number.isInteger(p.quantity) &&
+        p.quantity > 0 &&
+        [-1, 1].includes(p.side) &&
+        Number.isFinite(p.entryFees) &&
+        p.entryFees >= 0,
+    )
+  )
+    return false;
+  if (
+    !a.orders.every(
+      (o) =>
+        symbol(o.symbol) &&
+        ["working", "filled", "cancelled", "rejected"].includes(o.status) &&
+        ["buy", "sell"].includes(o.side) &&
+        ["market", "limit", "stop"].includes(o.type) &&
+        Number.isInteger(o.quantity) &&
+        o.quantity > 0 &&
+        positive(o.stop) &&
+        positive(o.target) &&
+        (o.type === "market" || positive(o.price)) &&
+        Number.isInteger(o.submittedIndex) &&
+        o.submittedIndex >= 0,
+    )
+  )
+    return false;
+  if (
+    !a.trades.every(
+      (t) =>
+        symbol(t.symbol) &&
+        positive(t.entry) &&
+        positive(t.exit) &&
+        Number.isInteger(t.quantity) &&
+        t.quantity > 0 &&
+        Number.isFinite(t.net),
+    )
+  )
+    return false;
+  if (
+    !data.tapes ||
+    typeof data.tapes !== "object" ||
+    Array.isArray(data.tapes) ||
+    !data.cursors ||
+    typeof data.cursors !== "object" ||
+    Array.isArray(data.cursors)
+  )
+    return false;
   for (const [name, bars] of Object.entries(data.tapes))
-    if (!symbol(name) || !Array.isArray(bars) || bars.length < 3 ||
-        !bars.every((b,i) => [b.time,b.open,b.high,b.low,b.close,b.volume].every(Number.isFinite) &&
-          positive(b.open) && positive(b.close) && positive(b.low) &&
-          b.low <= Math.min(b.open,b.close) && b.high >= Math.max(b.open,b.close) &&
-          (i === 0 || b.time > bars[i-1].time))) return false;
+    if (
+      !symbol(name) ||
+      !Array.isArray(bars) ||
+      bars.length < 3 ||
+      !bars.every(
+        (b, i) =>
+          [b.time, b.open, b.high, b.low, b.close, b.volume].every(
+            Number.isFinite,
+          ) &&
+          positive(b.open) &&
+          positive(b.close) &&
+          positive(b.low) &&
+          b.low <= Math.min(b.open, b.close) &&
+          b.high >= Math.max(b.open, b.close) &&
+          (i === 0 || b.time > bars[i - 1].time),
+      )
+    )
+      return false;
   for (const [name, index] of Object.entries(data.cursors))
-    if (!symbol(name) || !data.tapes[name] || !Number.isInteger(index) ||
-        index < 0 || index >= data.tapes[name].length) return false;
+    if (
+      !symbol(name) ||
+      !data.tapes[name] ||
+      !Number.isInteger(index) ||
+      index < 0 ||
+      index >= data.tapes[name].length
+    )
+      return false;
   return true;
 }
 function restore() {
@@ -104,30 +173,39 @@ export function practicePage(
   const cursor = () =>
     cursors[selected] ?? (cursors[selected] = Math.min(59, tape().length - 2));
   const current = () => tape()[cursor()];
-  const round = (v) =>
-    Math.round(v / instruments[selected].tick) * instruments[selected].tick;
-  function persist() {
+  const round = (v) => {
+    const tick = instruments[selected].tick,
+      decimals = (String(tick).split(".")[1] || "").length;
+    return Number((Math.round(v / tick) * tick).toFixed(decimals));
+  };
+  function persist(feedback = "Practice account saved on this device.") {
     try {
       localStorage.setItem(
         "satary-paper-v1",
         JSON.stringify({ account: state, tapes, cursors }),
       );
-      message = "Practice account saved on this device.";
+      message = feedback;
     } catch {
       message =
-        "Browser storage is unavailable or full. Export the account before leaving.";
+        feedback +
+        " Browser storage is unavailable or full. Export the account before leaving.";
     }
     onTrades?.(state.trades);
   }
   function act(fn) {
     try {
-      fn();
-      persist();
+      const feedback = fn();
+      persist(typeof feedback === "string" ? feedback : undefined);
       render();
     } catch (e) {
       message = e.message;
       const status = container.querySelector("#practice-status");
-      if (status) status.textContent = message;
+      if (status) {
+        container.querySelector("#practice-feedback").hidden = false;
+        status.textContent = message;
+        status.classList.add("is-error");
+        status.focus({ preventScroll: false });
+      }
     }
   }
   function step() {
@@ -142,9 +220,34 @@ export function practicePage(
       return;
     }
     act(() => {
-      cursors[selected] = cursor() + 1;
-      state = advanceAccount(state, selected, current(), cursor());
+      const before = state,
+        next = cursor() + 1;
+      const updated = advanceAccount(state, selected, tape()[next], next);
+      cursors[selected] = next;
+      state = updated;
+      return replayFeedback(before, updated);
     });
+  }
+  function replayFeedback(before, after) {
+    const changes = [];
+    for (const order of after.orders) {
+      const prior = before.orders.find((o) => o.id === order.id);
+      if (order.status === prior?.status) continue;
+      if (order.status === "filled")
+        changes.push(
+          `${order.symbol} ${order.side === "buy" ? "buy" : "sell"} filled: ${order.quantity} at ${price(order.fill)}.`,
+        );
+      if (order.status === "rejected")
+        changes.push(`Order rejected: ${order.reason}`);
+    }
+    for (const trade of after.trades.slice(before.trades.length))
+      changes.push(
+        `${trade.symbol} closed (${trade.exitReason}); net ${dollars(trade.net)}. Added to your journal.`,
+      );
+    return (
+      changes.join(" ") ||
+      "Replay advanced one bar. Working orders remain pending until their price is reached."
+    );
   }
   function render() {
     const info = instruments[selected],
@@ -156,7 +259,7 @@ export function practicePage(
       rates = baseRates(history),
       stopDistance = round(Math.max(info.tick * 20, (vol || 0) * 1.5)),
       pnl = equity - state.initial;
-    container.innerHTML = `<div class="training-banner"><strong>DEMO REPLAY · ${tapes[selected]?.[0]?.imported ? "IMPORTED HISTORY" : "SYNTHETIC DATA"}</strong><span>No real orders or real funds. External market quotes are separate from fills.</span></div><div class="stats">${[
+    container.innerHTML = `<div class="training-banner"><strong>DEMO REPLAY · ${tapes[selected]?.[0]?.imported ? "IMPORTED HISTORY" : "SYNTHETIC DATA"}</strong><span>No real orders or real funds. External market quotes are separate from fills.</span></div><section class="first-trade-guide"><strong>Your first demo trade</strong><span>1. Choose Buy or Sell. &nbsp; 2. Submit your order. &nbsp; 3. Review the fill below.</span><label class="check-label"><input id="auto-advance-market" type="checkbox" ${autoAdvanceMarket ? "checked" : ""}> Advance one replay bar after a market order (recommended)</label><button id="guide-ticket">Open order ticket ↓</button><p>Market orders fill at the next replay open. Limit and stop-entry orders wait for their price; use Next bar or Play replay.</p></section><div class="practice-feedback" id="practice-feedback" ${message ? "" : "hidden"}><p id="practice-status" role="status" aria-live="polite" tabindex="-1">${h(message)}</p>${state.orders.some((o) => o.status === "working" && o.symbol === selected) ? '<button id="feedback-step">Advance next bar →</button>' : ""}${state.positions.some((p) => p.symbol === selected) ? '<button id="feedback-position">See open position ↓</button>' : ""}</div><div class="stats">${[
       ["Account equity", dollars(equity)],
       ["Cash balance", dollars(state.balance)],
       ["Total P&L", dollars(pnl)],
@@ -185,7 +288,7 @@ export function practicePage(
       )
       .join(
         "",
-      )}</select></label><button id="step-replay">Next bar →</button><button id="play-replay">${timer ? "Pause" : "Play replay"}</button><button id="practice-zoom-in" aria-label="Zoom in">＋</button><button id="practice-zoom-out" aria-label="Zoom out">−</button></div><div class="chart-trade-buttons"><button id="chart-buy" class="buy-button">Buy demo</button><button id="chart-sell" class="sell-button">Sell demo</button><label>Click chart to set<select id="chart-click-mode">${["entry", "stop", "target", "level"].map((m) => `<option ${m === drawMode ? "selected" : ""}>${m}</option>`).join("")}</select></label></div><svg id="practice-chart" class="practice-chart" viewBox="0 0 850 380" role="img" tabindex="0" aria-label="Replay candlesticks. Click to set a ticket price. Buy and sell buttons submit demo orders."></svg><p class="chart-readout" id="practice-ohlc">O ${price(bar.open)} · H ${price(bar.high)} · L ${price(bar.low)} · C ${price(bar.close)}</p><div class="indicator-strip"><span>RSI 14: ${ind === null ? "Warming up" : ind.toFixed(1)}</span><span>ATR 14: ${vol === null ? "Warming up" : price(vol)}</span><span>Tick ${info.tick} · Tick value ${dollars(info.tick * info.point)}</span></div><div class="panel-explanation"><strong>Historical frequency, not a forecast</strong><p>In ${rates.count} non-overlapping ${rates.horizon}-bar windows already revealed, ${rates.count ? ((rates.up / rates.count) * 100).toFixed(1) : "0"}% rose and ${rates.count ? ((rates.down / rates.count) * 100).toFixed(1) : "0"}% fell (${rates.flat} unchanged). ${tapes[selected]?.[0]?.imported ? "Imported history" : "Synthetic sample"}; not a news-conditioned probability or a prediction.</p></div></section><aside class="panel page-panel order-panel"><h2>Demo order ticket</h2><p>Practice ${info.kind === "future" ? "contracts" : "whole shares"}. Orders become eligible on the next replay bar.</p><form id="paper-order"><label>Side<select name="side"><option value="buy">Buy / long</option><option value="sell">Sell / short</option></select></label><div class="form-grid"><label>Order type<select name="type"><option value="market">Market</option><option value="limit">Limit</option><option value="stop">Stop entry</option></select></label><label>Quantity<input name="quantity" type="number" min="1" step="1" value="1" required></label><label>Entry price<input name="price" type="number" min="${info.tick}" step="${info.tick}" value="${round(bar.close)}" required></label><label>Stop loss<input name="stop" type="number" min="${info.tick}" step="${info.tick}" value="${round(bar.close - stopDistance)}" required></label><label>Take profit<input name="target" type="number" min="${info.tick}" step="${info.tick}" value="${round(bar.close + stopDistance * 2)}" required></label><label>Trailing stop (ticks, 0 = off)<input name="trailTicks" type="number" min="0" step="1" value="0"></label><label>Setup<select name="setup"><option>Trend pullback</option><option>Breakout</option><option>Range reversal</option><option>News reaction</option><option>Practice</option></select></label></div><label>Trade thesis<textarea name="notes" rows="2" maxlength="2000" placeholder="Why this trade? What invalidates it?"></textarea></label><p id="risk-preview" class="risk-preview"></p><button class="primary">Submit demo order</button></form><p id="practice-status" role="status" aria-live="polite">${h(message)}</p><details><summary>Fill rules & account settings</summary><p>Market and stop fills include slippage. Limit orders never fill worse than the limit. Stop gaps use the open; if a bar touches both bracket exits, the stop wins. Intrabar limit targets wait until a later bar unless entry filled at the open. Trailing stops tighten after a completed bar and take effect on the next bar. Shorting is simplified. No exchange queue, borrow, liquidation, rollover, or actual broker margin is modeled.</p><form id="paper-settings">${[
+      )}</select></label><button id="step-replay">Next bar →</button><button id="play-replay">${timer ? "Pause" : "Play replay"}</button><button id="practice-zoom-in" aria-label="Zoom in">＋</button><button id="practice-zoom-out" aria-label="Zoom out">−</button></div><div class="chart-trade-buttons"><button id="chart-buy" class="buy-button">Buy demo</button><button id="chart-sell" class="sell-button">Sell demo</button><label>Click chart to set<select id="chart-click-mode">${["entry", "stop", "target", "level"].map((m) => `<option ${m === drawMode ? "selected" : ""}>${m}</option>`).join("")}</select></label></div><svg id="practice-chart" class="practice-chart" viewBox="0 0 850 380" role="img" tabindex="0" aria-label="Replay candlesticks. Click to set a ticket price. Buy and sell buttons submit demo orders."></svg><p class="chart-readout" id="practice-ohlc">O ${price(bar.open)} · H ${price(bar.high)} · L ${price(bar.low)} · C ${price(bar.close)}</p><div class="indicator-strip"><span>RSI 14: ${ind === null ? "Warming up" : ind.toFixed(1)}</span><span>ATR 14: ${vol === null ? "Warming up" : price(vol)}</span><span>Tick ${info.tick} · Tick value ${dollars(info.tick * info.point)}</span></div><div class="panel-explanation"><strong>Historical frequency, not a forecast</strong><p>In ${rates.count} non-overlapping ${rates.horizon}-bar windows already revealed, ${rates.count ? ((rates.up / rates.count) * 100).toFixed(1) : "0"}% rose and ${rates.count ? ((rates.down / rates.count) * 100).toFixed(1) : "0"}% fell (${rates.flat} unchanged). ${tapes[selected]?.[0]?.imported ? "Imported history" : "Synthetic sample"}; not a news-conditioned probability or a prediction.</p></div></section><aside class="panel page-panel order-panel"><h2>Demo order ticket</h2><p>Practice ${info.kind === "future" ? "contracts" : "whole shares"}. Orders become eligible on the next replay bar.</p><form id="paper-order"><label>Side<select name="side"><option value="buy">Buy / long</option><option value="sell">Sell / short</option></select></label><div class="form-grid"><label>Order type<select name="type"><option value="market">Market</option><option value="limit">Limit</option><option value="stop">Stop entry</option></select></label><label>Quantity<input name="quantity" type="number" min="1" step="1" value="1" required></label><label>Entry price<input name="price" type="number" min="${info.tick}" step="${info.tick}" value="${round(bar.close)}" required></label><label>Stop loss<input name="stop" type="number" min="${info.tick}" step="${info.tick}" value="${round(bar.close - stopDistance)}" required></label><label>Take profit<input name="target" type="number" min="${info.tick}" step="${info.tick}" value="${round(bar.close + stopDistance * 2)}" required></label><label>Trailing stop (ticks, 0 = off)<input name="trailTicks" type="number" min="0" step="1" value="0"></label><label>Setup<select name="setup"><option>Trend pullback</option><option>Breakout</option><option>Range reversal</option><option>News reaction</option><option>Practice</option></select></label></div><label>Trade thesis<textarea name="notes" rows="2" maxlength="2000" placeholder="Why this trade? What invalidates it?"></textarea></label><p id="risk-preview" class="risk-preview"></p><button class="primary">Submit demo order</button></form><details><summary>Fill rules & account settings</summary><p>Market and stop fills include slippage. Limit orders never fill worse than the limit. Stop gaps use the open; if a bar touches both bracket exits, the stop wins. Intrabar limit targets wait until a later bar unless entry filled at the open. Trailing stops tighten after a completed bar and take effect on the next bar. Shorting is simplified. No exchange queue, borrow, liquidation, rollover, or actual broker margin is modeled.</p><form id="paper-settings">${[
       ["fees", "Fee per unit / side ($)", state.fees, 0.001],
       ["slipTicks", "Slippage (ticks)", state.slipTicks, 1],
       ["riskPercent", "Max risk per trade (%)", state.riskPercent, 0.1],
@@ -245,17 +348,51 @@ export function practicePage(
     }
     function place(side) {
       if (!form.reportValidity()) return;
-      act(
-        () =>
-          (state = submitOrder(
-            state,
-            spec(side),
-            bar.close,
-            cursor(),
-            bar.time,
-          )),
-      );
+      const order = spec(side);
+      disposePractice();
+      act(() => {
+        if (cursor() >= tape().length - 1)
+          throw Error(
+            "Replay is at its final bar. Choose another instrument or load a new dataset before submitting an order.",
+          );
+        const before = state,
+          queued = submitOrder(state, order, bar.close, cursor(), bar.time);
+        if (order.type === "market" && autoAdvanceMarket) {
+          const next = cursor() + 1;
+          const updated = advanceAccount(queued, selected, tape()[next], next);
+          state = updated;
+          cursors[selected] = next;
+          return replayFeedback(before, updated);
+        }
+        state = queued;
+        return `${selected} ${order.side === "buy" ? "buy" : "sell"} order accepted and waiting. ${order.type === "market" ? "Press Advance next bar to fill at the next replay open." : "Press Next bar or Play replay; it fills only when its entry price is reached."}`;
+      });
+      container
+        .querySelector("#practice-status")
+        .focus({ preventScroll: false });
     }
+    $("#guide-ticket").onclick = () =>
+      form.scrollIntoView?.({ behavior: "smooth", block: "start" });
+    $("#auto-advance-market").onchange = (e) =>
+      (autoAdvanceMarket = e.target.checked);
+    if ($("#feedback-step")) $("#feedback-step").onclick = step;
+    if ($("#feedback-position"))
+      $("#feedback-position").onclick = () =>
+        container
+          .querySelector(".trade-management")
+          .scrollIntoView?.({ behavior: "smooth", block: "start" });
+    form.addEventListener(
+      "invalid",
+      (e) => {
+        const field = e.target;
+        const name = field.labels?.[0]?.textContent.trim() || field.name;
+        message = `Check ${name}: ${field.validationMessage || "enter a valid value."}`;
+        $("#practice-feedback").hidden = false;
+        $("#practice-status").textContent = message;
+        $("#practice-status").classList.add("is-error");
+      },
+      true,
+    );
     form.oninput = () => {
       disposePractice();
       $("#play-replay").textContent = "Play replay";
@@ -288,7 +425,7 @@ export function practicePage(
     $("#practice-symbol").onchange = (e) => {
       disposePractice();
       selected = e.target.value;
-      level = null;
+      ((level = null), (autoAdvanceMarket = true));
       render();
     };
     $("#practice-overlay").onchange = (e) => {
@@ -330,6 +467,8 @@ export function practicePage(
               +$(`[data-close-qty="${p.id}"]`).value,
               tapes[p.symbol][cursors[p.symbol]].time,
             );
+            const trade = state.trades.at(-1);
+            return `${trade.symbol} closed: net ${dollars(trade.net)}. Added to your journal.`;
           })),
     );
     container

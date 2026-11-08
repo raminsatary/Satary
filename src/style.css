@@ -2075,3 +2075,67 @@ td {
     display: inline-flex;
   }
 }
+.first-trade-guide {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0;
+  padding: 18px;
+  background: #fff;
+  border: 1px solid #cfdfcb;
+  border-radius: 10px;
+  font-size: 13px;
+}
+.first-trade-guide > span {
+  color: #4e6b55;
+  font-size: 12px;
+}
+.first-trade-guide .check-label {
+  margin-top: 0;
+}
+.first-trade-guide p {
+  font-size: 12px;
+  margin: 0;
+}
+.practice-feedback {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 16px;
+  margin: 16px 0;
+  border: 1px solid #9bc8aa;
+  background: #edf7ed;
+  border-radius: 9px;
+}
+.practice-feedback p {
+  flex: 1 1 260px;
+  color: #245d3d;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.7;
+}
+.practice-feedback .is-error {
+  color: #9d4033;
+}
+.practice-feedback button {
+  font-size: 12px;
+}
+.practice-feedback p:focus {
+  outline: 2px solid #398663;
+  outline-offset: 4px;
+}
+@media (max-width: 600px) {
+  .first-trade-guide {
+    padding: 14px;
+  }
+  .first-trade-guide .check-label {
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .practice-feedback {
+    padding: 14px;
+  }
+  .practice-feedback p {
+    font-size: 12px;
+  }
+}
