@@ -7,7 +7,7 @@
     "dev": "node server.js",
     "start": "node server.js",
     "test": "node --test",
-    "test:ui": "node scripts/check-ui.mjs"
+    "test:ui": "node scripts/check-ui.mjs && node scripts/check-first-trade.mjs"
   },
   "engines": {
     "node": ">=22"
