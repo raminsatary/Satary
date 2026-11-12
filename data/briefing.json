@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T17:11:32.677730+00:00",
+  "generatedAt": "2026-11-12T17:59:50.929638+00:00",
   "sources": [
     {
       "name": "Federal Reserve",
@@ -28,11 +28,18 @@
   ],
   "items": [
     {
+      "source": "Federal Reserve",
+      "title": "Federal Reserve announces revised tentative schedule of Federal Open Market Committee meetings in 2027",
+      "summary": "Federal Reserve announces revised tentative schedule of Federal Open Market Committee meetings in 2027",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261112a.htm",
+      "publishedAt": "2026-11-12T17:45:00+00:00"
+    },
+    {
       "source": "BBC Business",
       "title": "The rise and fall of Jensen Huang - how the tech superstar became mired in scandal",
       "summary": "",
       "url": "https://www.bbc.co.uk/news/articles/cmze750zg0jeo?at_medium=RSS&at_campaign=rss",
-      "publishedAt": "2026-11-12T16:02:10+00:00"
+      "publishedAt": "2026-11-12T17:11:48+00:00"
     },
     {
       "source": "BEA",
@@ -103,13 +110,6 @@
       "summary": "Personal income increased $115.1 billion (0.4 percent at a monthly rate) in July, according to estimates released today by the U.S. Bureau of Economic Analysis (BEA). Disposable personal income (DPI)-personal income less personal current taxes-increased $125.9 billion (0.5 percent), and personal consumption expenditures (PCE) increased $36.3 billion (0.2 per",
       "url": "https://www.bea.gov/news/2026/personal-income-and-outlays-july-2026",
       "publishedAt": "2026-08-26T12:30:00+00:00"
-    },
-    {
-      "source": "Federal Reserve",
-      "title": "Minutes of the Board's discount rate meetings on July 20 and July 29, 2026",
-      "summary": "Minutes of the Board's discount rate meetings on July 20 and July 29, 2026",
-      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260825a.htm",
-      "publishedAt": "2026-08-25T18:00:00+00:00"
     },
     {
       "source": "BEA",
