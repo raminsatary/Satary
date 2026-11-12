@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-12T22:54:55.627442+00:00",
+  "generatedAt": "2026-11-12T23:51:49.837479+00:00",
   "sources": [
     {
       "name": "Federal Reserve",
@@ -28,18 +28,18 @@
   ],
   "items": [
     {
+      "source": "BBC Business",
+      "title": "Scandal-hit Nvidia CEO Jensen Huang quits, plunging AI chipmaking giant into turmoil",
+      "summary": "",
+      "url": "https://www.bbc.co.uk/news/articles/cmq5vd1wdgz6o?at_medium=RSS&at_campaign=rss",
+      "publishedAt": "2026-11-12T23:34:05+00:00"
+    },
+    {
       "source": "Federal Reserve",
       "title": "Federal Reserve announces revised tentative schedule of Federal Open Market Committee meetings in 2027",
       "summary": "Federal Reserve announces revised tentative schedule of Federal Open Market Committee meetings in 2027",
       "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261112a.htm",
       "publishedAt": "2026-11-12T17:45:00+00:00"
-    },
-    {
-      "source": "BBC Business",
-      "title": "The rise and fall of Jensen Huang - how the tech superstar became mired in scandal",
-      "summary": "",
-      "url": "https://www.bbc.co.uk/news/articles/cmze750zg0jeo?at_medium=RSS&at_campaign=rss",
-      "publishedAt": "2026-11-12T17:11:48+00:00"
     },
     {
       "source": "BEA",
