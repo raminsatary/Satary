@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T13:56:40.571387+00:00",
+  "generatedAt": "2026-11-18T21:55:42.627249+00:00",
   "sources": [
     {
       "name": "Federal Reserve",
@@ -27,6 +27,20 @@
     }
   ],
   "items": [
+    {
+      "source": "Federal Reserve",
+      "title": "Minutes of the Federal Open Market Committee, October 27-28, 2026",
+      "summary": "Minutes of the Federal Open Market Committee, October 27-28, 2026",
+      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261118a.htm",
+      "publishedAt": "2026-11-18T19:00:00+00:00"
+    },
+    {
+      "source": "BEA",
+      "title": "Outdoor Recreation Economic Statistics, U.S. and States, 2025",
+      "summary": "The value added of the outdoor recreation economy accounted for 2.3 percent ($704.2 billion) of current-dollar gross domestic product (GDP) for the nation in 2025. Across states and the District of Columbia, value added for outdoor recreation as a share of state GDP ranged from 6.1 percent in Hawaii to 1.0 percent in the District of Columbia.",
+      "url": "https://www.bea.gov/news/2026/outdoor-recreation-economic-statistics-us-and-states-2025",
+      "publishedAt": "2026-11-18T15:00:00+00:00"
+    },
     {
       "source": "BBC Business",
       "title": "Typical energy bill forecast to go up by \u00a3443 a year from January as inflation rate rises again",
@@ -98,25 +112,11 @@
       "publishedAt": "2026-09-16T18:00:00+00:00"
     },
     {
-      "source": "Federal Reserve",
-      "title": "Federal Reserve Board and Federal Open Market Committee release economic projections from the September 15-16 FOMC meeting",
-      "summary": "Federal Reserve Board and Federal Open Market Committee release economic projections from the September 15-16 FOMC meeting",
-      "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20260916b.htm",
-      "publishedAt": "2026-09-16T18:00:00+00:00"
-    },
-    {
       "source": "BEA",
       "title": "Personal Income and Outlays, July 2026",
       "summary": "Personal income increased $115.1 billion (0.4 percent at a monthly rate) in July, according to estimates released today by the U.S. Bureau of Economic Analysis (BEA). Disposable personal income (DPI)-personal income less personal current taxes-increased $125.9 billion (0.5 percent), and personal consumption expenditures (PCE) increased $36.3 billion (0.2 per",
       "url": "https://www.bea.gov/news/2026/personal-income-and-outlays-july-2026",
       "publishedAt": "2026-08-26T12:30:00+00:00"
-    },
-    {
-      "source": "BEA",
-      "title": "Personal Income and Outlays, June 2026",
-      "summary": "Personal income increased $54.9 billion (0.2 percent at a monthly rate) in June, according to estimates released today by the U.S. Bureau of Economic Analysis (BEA). Disposable personal income (DPI)-personal income less personal current taxes-increased $48.3 billion (0.2 percent), and personal consumption expenditures (PCE) increased $65.2 billion (0.3 perce",
-      "url": "https://www.bea.gov/news/2026/personal-income-and-outlays-june-2026",
-      "publishedAt": "2026-07-30T12:30:00+00:00"
     }
   ]
 }
