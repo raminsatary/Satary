@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T21:55:42.627249+00:00",
+  "generatedAt": "2026-11-19T03:25:46.145001+00:00",
   "sources": [
     {
       "name": "Federal Reserve",
@@ -28,6 +28,13 @@
   ],
   "items": [
     {
+      "source": "BBC Business",
+      "title": "AI giant Anthropic valued at up to $1.5tn ahead of stock market debut",
+      "summary": "",
+      "url": "https://www.bbc.co.uk/news/articles/c6742m39xgzxo?at_medium=RSS&at_campaign=rss",
+      "publishedAt": "2026-11-19T02:20:15+00:00"
+    },
+    {
       "source": "Federal Reserve",
       "title": "Minutes of the Federal Open Market Committee, October 27-28, 2026",
       "summary": "Minutes of the Federal Open Market Committee, October 27-28, 2026",
@@ -40,13 +47,6 @@
       "summary": "The value added of the outdoor recreation economy accounted for 2.3 percent ($704.2 billion) of current-dollar gross domestic product (GDP) for the nation in 2025. Across states and the District of Columbia, value added for outdoor recreation as a share of state GDP ranged from 6.1 percent in Hawaii to 1.0 percent in the District of Columbia.",
       "url": "https://www.bea.gov/news/2026/outdoor-recreation-economic-statistics-us-and-states-2025",
       "publishedAt": "2026-11-18T15:00:00+00:00"
-    },
-    {
-      "source": "BBC Business",
-      "title": "Typical energy bill forecast to go up by \u00a3443 a year from January as inflation rate rises again",
-      "summary": "",
-      "url": "https://www.bbc.co.uk/news/articles/cmy498kdkx3xo?at_medium=RSS&at_campaign=rss",
-      "publishedAt": "2026-11-18T13:17:06+00:00"
     },
     {
       "source": "Federal Reserve",
