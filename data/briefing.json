@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-25T12:52:04.610636+00:00",
+  "generatedAt": "2026-11-25T22:30:45.733908+00:00",
   "sources": [
     {
       "name": "Federal Reserve",
@@ -29,10 +29,24 @@
   "items": [
     {
       "source": "BBC Business",
-      "title": "Energy bills to rise by 26% from January after gas prices surge",
+      "title": "Poundland collapses putting 11,000 jobs at risk",
       "summary": "",
-      "url": "https://www.bbc.co.uk/news/articles/cm20qnq33e90o?at_medium=RSS&at_campaign=rss",
-      "publishedAt": "2026-11-25T11:44:26+00:00"
+      "url": "https://www.bbc.co.uk/news/articles/cm3vgdn037z4o?at_medium=RSS&at_campaign=rss",
+      "publishedAt": "2026-11-25T21:31:10+00:00"
+    },
+    {
+      "source": "BEA",
+      "title": "GDP, (Second Estimate) and Corporate Profits, 3rd Quarter 2026",
+      "summary": "Real gross domestic product (GDP) increased at an annual rate of 4.3 percent in the third quarter of 2026 (July, August, and September), according to the second estimate released today by the U.S. Bureau of Economic Analysis (BEA). In the second quarter, real GDP increased 2.2 percent. The contributors to the increase in real GDP in the third quarter were in",
+      "url": "https://www.bea.gov/news/2026/gdp-second-estimate-and-corporate-profits-3rd-quarter-2026",
+      "publishedAt": "2026-11-25T13:30:00+00:00"
+    },
+    {
+      "source": "BEA",
+      "title": "Personal Income and Outlays, October 2026",
+      "summary": "Personal income increased $201.8 billion (0.7 percent at a monthly rate) in October, according to estimates released today by the U.S. Bureau of Economic Analysis (BEA). Disposable personal income (DPI)\u2013personal income less personal current taxes\u2013increased $200.5 billion (0.8 percent), and personal consumption expenditures (PCE) increased $63.8 billion (0.3 ",
+      "url": "https://www.bea.gov/news/2026/personal-income-and-outlays-october-2026",
+      "publishedAt": "2026-11-25T13:30:00+00:00"
     },
     {
       "source": "Federal Reserve",
@@ -78,13 +92,6 @@
     },
     {
       "source": "BEA",
-      "title": "GDP (Advance Estimate), 3rd Quarter 2026",
-      "summary": "Real gross domestic product (GDP) increased at an annual rate of 3.4 percent in the third quarter of 2026 (July, August, and September), according to the advance estimate released today by the U.S. Bureau of Economic Analysis (BEA). In the second quarter, real GDP increased 2.2 percent. The contributors to the increase in real GDP in the third quarter were i",
-      "url": "https://www.bea.gov/news/2026/gdp-advance-estimate-3rd-quarter-2026",
-      "publishedAt": "2026-10-29T12:30:00+00:00"
-    },
-    {
-      "source": "BEA",
       "title": "Personal Income and Outlays, September 2026",
       "summary": "Personal income increased $54.5 billion (0.2 percent at a monthly rate) in September, according to estimates released today by the U.S. Bureau of Economic Analysis (BEA). Disposable personal income (DPI)\u2013personal income less personal current taxes\u2013increased $52.7 billion (0.2 percent), and personal consumption expenditures (PCE) increased $113.1 billion (0.5",
       "url": "https://www.bea.gov/news/2026/personal-income-and-outlays-september-2026",
@@ -110,13 +117,6 @@
       "summary": "Minutes of the Federal Open Market Committee, September 15-16, 2026",
       "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20261007a.htm",
       "publishedAt": "2026-10-07T18:00:00+00:00"
-    },
-    {
-      "source": "BEA",
-      "title": "U.S. International Transactions and Investment Position, 2nd Quarter 2026",
-      "summary": "The U.S. current-account deficit resulting from international economic transactions widened by $33.4 billion, or 15.7 percent, to $246.0 billion in the second quarter of 2026, according to statistics released today by the U.S. Bureau of Economic Analysis. The revised first-quarter deficit was $212.6 billion. The second-quarter deficit was 3.0 percent of curr",
-      "url": "https://bea.gov/news/2026/us-international-transactions-and-investment-position-2nd-quarter-2026",
-      "publishedAt": "2026-09-24T12:30:00+00:00"
     }
   ]
 }
